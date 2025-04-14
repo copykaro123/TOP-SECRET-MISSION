@@ -1,0 +1,27 @@
+# Load data
+data(iris)
+X <- iris[, 1:2]  # Using only Sepal.Length and Sepal.Width
+set.seed(42)
+
+# Initialize parameters
+k <- 3
+centroids <- X[sample(1:nrow(X), k), ]
+
+# Function to assign clusters
+assign_clusters <- function(data, centers) {
+  apply(data, 1, function(row) {
+    which.min(colSums((t(centers) - row)^2))
+  })
+}
+
+# Run K-Means
+for (i in 1:10) {
+  clusters <- assign_clusters(X, centroids)
+  new_centroids <- aggregate(X, by = list(cluster = clusters), FUN = mean)[, -1]
+  if (all(centroids == new_centroids)) break
+  centroids <- new_centroids
+}
+
+# Plot
+plot(X, col = clusters, pch = 19, main = "K-Means Clustering (Manual)")
+points(centroids, col = 1:k, pch = 8, cex = 2)
