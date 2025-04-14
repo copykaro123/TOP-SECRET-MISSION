@@ -1,0 +1,17 @@
+# Sample data
+hours <- c(1, 2, 3, 4, 5)
+marks <- c(10, 20, 30, 40, 50)
+df <- data.frame(hours, marks)
+
+# Train model
+model <- lm(marks ~ hours, data = df)
+
+# Predict
+hours_to_predict <- data.frame(hours = 6)
+predicted_marks <- predict(model, hours_to_predict)
+cat("Predicted marks for 6 hours of study:", predicted_marks, "\n")
+
+# Plot
+plot(df$hours, df$marks, pch=19, col="blue", main="Linear Regression: Hours vs Marks",
+     xlab="Hours Studied", ylab="Marks")
+abline(model, col="red")
