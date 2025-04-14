@@ -1,0 +1,13 @@
+# Load dataset
+data(iris)
+
+# Apply K-means clustering
+kc <- kmeans(iris[, 1:4], centers = 3)
+
+# Compare clustering with actual species
+print(table(iris$Species, kc$cluster))
+
+# Plot clusters and their centers
+plot(iris[, c("Sepal.Length", "Sepal.Width")], col = kc$cluster, pch = 19,
+     main = "K-means Clustering of Iris Data")
+points(kc$centers[, c("Sepal.Length", "Sepal.Width")], col = 1:3, pch = 8, cex = 2)
