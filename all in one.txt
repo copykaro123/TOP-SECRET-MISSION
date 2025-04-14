@@ -1,0 +1,68 @@
+*Perform The Data Clustering using Clustering algorithm in R Programming 
+
+> data(iris)
+> install.packages("factoextra")
+> iris_numbers <- iris[, 1:4]
+> iris_scaled <- scale(iris_numbers)
+> library(factoextra)
+> set.seed(123)
+> kmeans_result <- kmeans(iris_scaled, centers = 3)
+> fviz_cluster(kmeans_result, data = iris_scaled, palette = c("blue","red", "green"), ggtheme = theme_minimal())
+> iris$Cluster <- kmeans_result$cluster
+> head(iris)
+> table(iris$Species, iris$Cluster)	
+
+
+linear regression
+
+x <- c(151, 174, 138, 186, 128, 136, 179, 163, 152, 131)
+y <- c(63, 81, 56, 91, 47, 57, 76, 72, 62, 48) 
+relation <- lm(y~x) 
+print(relation) 
+print(summary(relation)) 
+
+a <- data.frame(x = 170)
+result <- predict(relation,a) 
+print(result) 
+png(file = "linearregression.png")
+plot(y,x,col = "blue",main = "Height & Weight Regression", abline(lm(x~y)),cex = 1.3,pch = 16,xlab = "Weight in Kg",ylab = "Height in cm")
+dev.off()
+plot(y,x,col = "blue",main = "Height & Weight Regression", abline(lm(x~y)),cex = 1.3,pch = 16,xlab = "Weight in Kg",ylab = "Height in cm")
+
+
+
+tree diagram
+
+ library(rpart)
+ library(rpart.plot)
+ library(caret)
+ data(iris)
+ set.seed(42)
+ train_index <- createDataPartition(iris$Species, p = 0.7, list = FALSE)
+ train_data <- iris[train_index, ]
+ test_data <- iris[-train_index, ]
+ tree_model <- rpart(Species ~ ., data = train_data, method = "class")
+ rpart.plot(tree_model, type = 4, extra = 104, box.palette = "GnBu")
+ predictions <- predict(tree_model, test_data, type = "class")
+ predictions <- predict(tree_model, test_data, type = "class")
+ confusionMatrix(predictions, test_data$Species)
+ printcp(tree_model)
+pruned_tree <- prune(tree_model, cp = tree_model$cptable[which.min(tree_model$cptable[,"xerror"]),"CP"])
+rpart.plot(pruned_tree)
+
+
+
+data classification 
+
+rainfall <- c(799,1174.8,865.1,1334.6,635.4,918.5,685.5,998.6,784.2,985,882.8,1071)
+rainfall.timeseries <- ts(rainfall,start = c(2012,1),frequency = 12)
+print(rainfall.timeseries)
+png(file = "rainfall.png")
+plot(rainfall.timeseries)
+dev.off()
+plot(rainfall.timeseries)
+
+
+
+
+
